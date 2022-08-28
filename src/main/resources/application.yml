@@ -1,0 +1,11 @@
+
+spring:
+    application:
+        name: expenses
+    profiles:
+        active: @profile.active@
+
+# encrypter:
+#     salt: //]ncX?001!@bc3&
+
+# microservice-common.url: host.docker.internal:8000

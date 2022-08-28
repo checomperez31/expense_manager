@@ -1,0 +1,8 @@
+server:
+    port: 8085
+
+spring:
+    datasource:
+        url: jdbc:mysql://localhost:3306/expense_manager?autoReconnect=true&allowPublicKeyRetrieval=true&useSSL=false
+        username: root
+        driver-class-name: com.mysql.cj.jdbc.Driver
