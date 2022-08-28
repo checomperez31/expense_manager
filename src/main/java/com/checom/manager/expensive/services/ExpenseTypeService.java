@@ -1,5 +1,8 @@
 package com.checom.manager.expensive.services;
 
-public class AccountTypeService {
+import org.springframework.stereotype.Service;
+
+@Service
+public class ExpenseTypeService {
     
 }

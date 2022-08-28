@@ -4,6 +4,8 @@ import java.time.ZonedDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -12,20 +14,21 @@ import javax.persistence.Table;
 public class AccountType {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     private String description;
 
-    @Column(name = "created_date")
-    private ZonedDateTime createdDate;
+    @Column(name = "create_time")
+    private ZonedDateTime createdDate = ZonedDateTime.now();
     
-    @Column(name = "created_user")
+    @Column(name = "create_user")
     private String createdUser;
 
-    @Column(name = "modified_date")
-    private ZonedDateTime updatedDate;
+    @Column(name = "update_time")
+    private ZonedDateTime updatedDate = ZonedDateTime.now();
 
-    @Column(name = "modified_user")
+    @Column(name = "update_user")
     private String updatedUser;
 
     public Integer getId() {
