@@ -12,36 +12,36 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.checom.manager.expensive.models.AccountType;
-import com.checom.manager.expensive.services.AccountTypeService;
+import com.checom.manager.expensive.models.ExpenseType;
+import com.checom.manager.expensive.services.ExpenseTypeService;
 
 @RestController
-@RequestMapping("/api/account-type")
-public class AccountTypeController {
+@RequestMapping("/api/expense-type")
+public class ExpenseTypeController {
 
-    private final AccountTypeService service;
+    private final ExpenseTypeService service;
 
-    public AccountTypeController(AccountTypeService service) {
+    public ExpenseTypeController(ExpenseTypeService service) {
         this.service = service;
     }
 
     @PostMapping()
-    public ResponseEntity<AccountType> create(@RequestBody AccountType entity) {
+    public ResponseEntity<ExpenseType> create(@RequestBody ExpenseType entity) {
         return ResponseEntity.ok( this.service.save(entity) );
     }
     
-    @PutMapping()
-    public ResponseEntity<AccountType> update(@RequestBody AccountType entity) {
+    @PutMapping
+    public ResponseEntity<ExpenseType> update(@RequestBody ExpenseType entity) {
         return ResponseEntity.ok( this.service.save(entity) );
     }
 
     @GetMapping()
-    public ResponseEntity<List<AccountType>> findAll() {
+    public ResponseEntity<List<ExpenseType>> findAll() {
         return ResponseEntity.ok( this.service.findAll() );
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<AccountType> findOne(@PathVariable Integer id) {
+    public ResponseEntity<ExpenseType> findOne(@PathVariable Integer id) {
         return ResponseEntity.ok( this.service.findOne( id ).orElse( null ) );
     }
 

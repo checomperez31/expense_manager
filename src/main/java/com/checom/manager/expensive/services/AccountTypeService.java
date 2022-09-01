@@ -20,7 +20,7 @@ public class AccountTypeService {
 
     @Transactional()
     public AccountType save(AccountType entity) {
-        return this.repository.save(entity);
+        return this.repository.save( entity );
     }
     
     @Transactional(readOnly = true)
@@ -30,11 +30,11 @@ public class AccountTypeService {
     
     @Transactional(readOnly = true)
     public Optional<AccountType> findOne(Integer id) {
-        return this.repository.findById(id);
+        return this.repository.findById( id );
     }
     
     @Transactional()
     public void delete(Integer id) {
-        this.repository.deleteById(id);
+        this.repository.deleteById( id );
     }
 }

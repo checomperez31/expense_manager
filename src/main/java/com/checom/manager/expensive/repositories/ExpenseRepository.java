@@ -6,4 +6,4 @@ import org.springframework.stereotype.Repository;
 import com.checom.manager.expensive.models.Expense;
 
 @Repository
-public interface ExpenseRepository extends JpaRepository<Expense, Integer> {}
+public interface ExpenseRepository extends JpaRepository<Expense, String> {}
