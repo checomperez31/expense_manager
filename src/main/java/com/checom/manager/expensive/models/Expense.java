@@ -44,16 +44,16 @@ public class Expense {
     @Column(name = "expense_date")
     private ZonedDateTime expenseDate;
     
-    @Column(name = "created_date")
+    @Column(name = "create_time")
     private ZonedDateTime createdDate;
     
-    @Column(name = "created_user")
+    @Column(name = "create_user")
     private String createdUser;
 
-    @Column(name = "modified_date")
+    @Column(name = "update_time")
     private ZonedDateTime updatedDate;
 
-    @Column(name = "modified_user")
+    @Column(name = "update_user")
     private String updatedUser;
 
     public String getId() {
