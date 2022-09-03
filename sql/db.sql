@@ -35,6 +35,20 @@ CREATE TABLE account(
 
 ALTER TABLE account ADD CONSTRAINT FOREIGN KEY(type_id) REFERENCES account_type(id);
 
+CREATE TABLE period(
+    id VARCHAR(36) NOT NULL PRIMARY KEY COMMENT 'Primary Key',
+    description VARCHAR(300) COMMENT 'Description',
+    init_date DATETIME COMMENT 'Init date',
+    finish_date DATETIME COMMENT 'Finish Time',
+    account_id VARCHAR(36) COMMENT 'Account',
+    create_time DATETIME COMMENT 'Create Time',
+    create_user VARCHAR(36) COMMENT 'Create user',
+    update_time DATETIME COMMENT 'Update Time',
+    update_user VARCHAR(36) COMMENT 'Update user'
+) COMMENT 'Expenses';
+
+ALTER TABLE period ADD CONSTRAINT FOREIGN KEY(account_id) REFERENCES account(id);
+
 CREATE TABLE expense(
     id VARCHAR(36) NOT NULL PRIMARY KEY COMMENT 'Primary Key',
     account_id VARCHAR(36) COMMENT 'Account',
@@ -42,6 +56,8 @@ CREATE TABLE expense(
     type_id INT COMMENT 'Type of expense',
     parent_id VARCHAR(36) COMMENT 'Expense parent',
     amount INT COMMENT 'Ammount of money',
+    period_id VARCHAR(36) COMMENT 'Period',
+    expense_date DATETIME COMMENT 'Expense Time',
     create_time DATETIME COMMENT 'Create Time',
     create_user VARCHAR(36) COMMENT 'Create user',
     update_time DATETIME COMMENT 'Update Time',
@@ -51,3 +67,4 @@ CREATE TABLE expense(
 ALTER TABLE expense ADD CONSTRAINT FOREIGN KEY(account_id) REFERENCES account(id);
 ALTER TABLE expense ADD CONSTRAINT FOREIGN KEY(type_id) REFERENCES expense_type(id);
 ALTER TABLE expense ADD CONSTRAINT FOREIGN KEY(parent_id) REFERENCES expense(id);
+ALTER TABLE expense ADD CONSTRAINT FOREIGN KEY(period_id) REFERENCES period(id);

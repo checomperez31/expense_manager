@@ -13,37 +13,26 @@ import javax.persistence.Table;
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
-@Table(name = "expense")
-public class Expense {
-
+@Table(name = "period")
+public class Period {
+    
     @Id
     @GeneratedValue(generator = "uuid2")
-    @GenericGenerator(name ="uuid2", strategy = "uuid2")
+    @GenericGenerator(name = "uuid2", strategy = "uuid2")
     private String id;
+
+    private String description;
+
+    @Column(name = "init_date")
+    private ZonedDateTime initDate;
+    
+    @Column(name = "finish_date")
+    private ZonedDateTime finishDate;
 
     @ManyToOne
     @JoinColumn(name = "account_id")
     private Account account;
 
-    private String description;
-
-    @ManyToOne
-    @JoinColumn(name = "type_id")
-    private ExpenseType type;
-
-    @ManyToOne
-    @JoinColumn(name = "parent_id")
-    private Expense parent;
-
-    private Integer amount;
-
-    @ManyToOne
-    @JoinColumn(name = "period_id")
-    private Period period;
-
-    @Column(name = "expense_date")
-    private ZonedDateTime expenseDate;
-    
     @Column(name = "created_date")
     private ZonedDateTime createdDate;
     
@@ -64,14 +53,6 @@ public class Expense {
         this.id = id;
     }
 
-    public Account getAccount() {
-        return account;
-    }
-
-    public void setAccount(Account account) {
-        this.account = account;
-    }
-
     public String getDescription() {
         return description;
     }
@@ -80,44 +61,28 @@ public class Expense {
         this.description = description;
     }
 
-    public ExpenseType getType() {
-        return type;
+    public ZonedDateTime getInitDate() {
+        return initDate;
     }
 
-    public void setType(ExpenseType type) {
-        this.type = type;
+    public void setInitDate(ZonedDateTime initDate) {
+        this.initDate = initDate;
     }
 
-    public Expense getParent() {
-        return parent;
+    public ZonedDateTime getFinishDate() {
+        return finishDate;
     }
 
-    public void setParent(Expense parent) {
-        this.parent = parent;
+    public void setFinishDate(ZonedDateTime finishDate) {
+        this.finishDate = finishDate;
     }
 
-    public Integer getAmount() {
-        return amount;
+    public Account getAccount() {
+        return account;
     }
 
-    public void setAmount(Integer amount) {
-        this.amount = amount;
-    }
-
-    public Period getPeriod() {
-        return period;
-    }
-
-    public void setPeriod(Period period) {
-        this.period = period;
-    }
-
-    public ZonedDateTime getExpenseDate() {
-        return expenseDate;
-    }
-
-    public void setExpenseDate(ZonedDateTime expenseDate) {
-        this.expenseDate = expenseDate;
+    public void setAccount(Account account) {
+        this.account = account;
     }
 
     public ZonedDateTime getCreatedDate() {
