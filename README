@@ -1,0 +1,12 @@
+To compile
+
+.\mvnw -DskipTests clean package
+
+
+to bluid
+
+docker build -t expense-manager ./
+
+to run
+
+docker run -dp 8084:8085 expense-manager
