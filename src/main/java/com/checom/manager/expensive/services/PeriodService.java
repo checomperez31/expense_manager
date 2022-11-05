@@ -8,18 +8,22 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.checom.manager.expensive.models.Period;
 import com.checom.manager.expensive.repositories.PeriodRepository;
+import com.checom.manager.expensive.services.dto.PeriodCreateDto;
+import com.checom.manager.expensive.services.mapping.PeriodCreateMapper;
 
 @Service
 public class PeriodService {
     private final PeriodRepository repository;
+    private final PeriodCreateMapper createMapper;
 
-    public PeriodService(PeriodRepository repository) {
+    public PeriodService(PeriodRepository repository, PeriodCreateMapper createMapper) {
         this.repository = repository;
+        this.createMapper = createMapper;
     }
 
     @Transactional
-    public Period save(Period entity) {
-        return this.repository.save( entity );
+    public Period save(PeriodCreateDto dto) {
+        return this.repository.save( this.createMapper.toEntity( dto ) );
     }
 
     @Transactional(readOnly = true)

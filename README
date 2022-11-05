@@ -1,6 +1,6 @@
 To compile
 
-.\mvnw -DskipTests clean package
+.\mvnw -DskipTests -Pprod clean package
 
 
 to bluid

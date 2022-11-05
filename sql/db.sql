@@ -68,3 +68,9 @@ ALTER TABLE expense ADD CONSTRAINT FOREIGN KEY(account_id) REFERENCES account(id
 ALTER TABLE expense ADD CONSTRAINT FOREIGN KEY(type_id) REFERENCES expense_type(id);
 ALTER TABLE expense ADD CONSTRAINT FOREIGN KEY(parent_id) REFERENCES expense(id);
 ALTER TABLE expense ADD CONSTRAINT FOREIGN KEY(period_id) REFERENCES period(id);
+
+
+
+
+
+alter TABLE account_type modify create_time DATETIME DEFAULT CURRENT_TIMESTAMP;

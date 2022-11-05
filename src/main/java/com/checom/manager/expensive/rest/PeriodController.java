@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.checom.manager.expensive.models.Period;
 import com.checom.manager.expensive.services.PeriodService;
+import com.checom.manager.expensive.services.dto.PeriodCreateDto;
 
 @RestController
 @RequestMapping("/api/period")
@@ -26,12 +27,12 @@ public class PeriodController {
     }
 
     @PostMapping()
-    public ResponseEntity<Period> create(@RequestBody Period entity) {
+    public ResponseEntity<Period> create(@RequestBody PeriodCreateDto entity) {
         return ResponseEntity.ok( this.service.save( entity ) );
     }
     
     @PutMapping
-    public ResponseEntity<Period> update(@RequestBody Period entity) {
+    public ResponseEntity<Period> update(@RequestBody PeriodCreateDto entity) {
         return ResponseEntity.ok( this.service.save( entity ) );
     }
 
