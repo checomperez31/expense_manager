@@ -6,8 +6,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -28,10 +26,6 @@ public class Period {
     
     @Column(name = "finish_date")
     private ZonedDateTime finishDate;
-
-    @ManyToOne
-    @JoinColumn(name = "account_id")
-    private Account account;
 
     @Column(name = "create_time")
     private ZonedDateTime createdDate;
@@ -75,14 +69,6 @@ public class Period {
 
     public void setFinishDate(ZonedDateTime finishDate) {
         this.finishDate = finishDate;
-    }
-
-    public Account getAccount() {
-        return account;
-    }
-
-    public void setAccount(Account account) {
-        this.account = account;
     }
 
     public ZonedDateTime getCreatedDate() {

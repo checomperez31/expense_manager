@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.checom.manager.expensive.models.Account;
 import com.checom.manager.expensive.models.Expense;
 import com.checom.manager.expensive.repositories.ExpenseRepository;
 
@@ -13,13 +14,19 @@ import com.checom.manager.expensive.repositories.ExpenseRepository;
 public class ExpenseService {
 
     private final ExpenseRepository repository;
+    private final AccountService accountService;
 
-    public ExpenseService(ExpenseRepository repository) {
+    public ExpenseService(ExpenseRepository repository, AccountService accountService) {
         this.repository = repository;
+        this.accountService = accountService;
     }
 
     @Transactional()
     public Expense save(Expense entity) {
+        Account account = this.accountService.findOne( entity.getAccount().getId() ).orElse(null);
+        account.setAmount( account.getAmount() + entity.getAmount() );
+        account = this.accountService.save(account);
+        entity.setAccount(account);
         return this.repository.save( entity );
     }
 

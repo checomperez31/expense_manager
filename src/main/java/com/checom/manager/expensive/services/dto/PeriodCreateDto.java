@@ -14,6 +14,5 @@ public class PeriodCreateDto implements Serializable {
     private ZonedDateTime initDate;
     
     private ZonedDateTime finishDate;
-
-    private AccountCreateDto account;
+    
 }

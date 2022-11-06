@@ -6,9 +6,9 @@ CREATE DATABASE expense_manager
 CREATE TABLE expense_type(  
     id int NOT NULL PRIMARY KEY AUTO_INCREMENT COMMENT 'Primary Key',
     description VARCHAR(300) COMMENT 'Description',
-    create_time DATETIME COMMENT 'Create Time',
+    create_time DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT 'Create Time',
     create_user VARCHAR(36) COMMENT 'Create user',
-    update_time DATETIME COMMENT 'Update Time',
+    update_time DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT 'Update Time',
     update_user VARCHAR(36) COMMENT 'Update user'
 ) COMMENT 'Expenses types';
 
@@ -16,20 +16,20 @@ CREATE TABLE expense_type(
 CREATE TABLE account_type(  
     id int NOT NULL PRIMARY KEY AUTO_INCREMENT COMMENT 'Primary Key',
     description VARCHAR(300) COMMENT 'Description',
-    create_time DATETIME COMMENT 'Create Time',
+    create_time DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT 'Create Time',
     create_user VARCHAR(36) COMMENT 'Create user',
-    update_time DATETIME COMMENT 'Update Time',
+    update_time DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT 'Update Time',
     update_user VARCHAR(36) COMMENT 'Update user'
 ) COMMENT 'Account types';
 
 CREATE TABLE account(
     id VARCHAR(36) NOT NULL PRIMARY KEY COMMENT 'Primary Key',
     name VARCHAR(300) COMMENT 'Description',
-    quantity INT COMMENT 'Ammount of money',
+    amount DECIMAL COMMENT 'Ammount of money',
     type_id INT COMMENT 'Type of account',
-    create_time DATETIME COMMENT 'Create Time',
+    create_time DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT 'Create Time',
     create_user VARCHAR(36) COMMENT 'Create user',
-    update_time DATETIME COMMENT 'Update Time',
+    update_time DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT 'Update Time',
     update_user VARCHAR(36) COMMENT 'Update user'
 ) COMMENT 'Accounts';
 
@@ -41,11 +41,11 @@ CREATE TABLE period(
     init_date DATETIME COMMENT 'Init date',
     finish_date DATETIME COMMENT 'Finish Time',
     account_id VARCHAR(36) COMMENT 'Account',
-    create_time DATETIME COMMENT 'Create Time',
+    create_time DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT 'Create Time',
     create_user VARCHAR(36) COMMENT 'Create user',
-    update_time DATETIME COMMENT 'Update Time',
+    update_time DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT 'Update Time',
     update_user VARCHAR(36) COMMENT 'Update user'
-) COMMENT 'Expenses';
+) COMMENT 'Periods';
 
 ALTER TABLE period ADD CONSTRAINT FOREIGN KEY(account_id) REFERENCES account(id);
 
@@ -58,9 +58,9 @@ CREATE TABLE expense(
     amount INT COMMENT 'Ammount of money',
     period_id VARCHAR(36) COMMENT 'Period',
     expense_date DATETIME COMMENT 'Expense Time',
-    create_time DATETIME COMMENT 'Create Time',
+    create_time DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT 'Create Time',
     create_user VARCHAR(36) COMMENT 'Create user',
-    update_time DATETIME COMMENT 'Update Time',
+    update_time DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT 'Update Time',
     update_user VARCHAR(36) COMMENT 'Update user'
 ) COMMENT 'Expenses';
 
@@ -69,8 +69,11 @@ ALTER TABLE expense ADD CONSTRAINT FOREIGN KEY(type_id) REFERENCES expense_type(
 ALTER TABLE expense ADD CONSTRAINT FOREIGN KEY(parent_id) REFERENCES expense(id);
 ALTER TABLE expense ADD CONSTRAINT FOREIGN KEY(period_id) REFERENCES period(id);
 
-
-
-
-
-alter TABLE account_type modify create_time DATETIME DEFAULT CURRENT_TIMESTAMP;
+INSERT INTO account_type(description) VALUES('Credito');
+INSERT INTO account_type(description) VALUES('Debito');
+INSERT INTO account_type(description) VALUES('Ahorro');
+INSERT INTO expense_type(description) VALUES('Gasolina');
+INSERT INTO expense_type(description) VALUES('Despensa');
+INSERT INTO expense_type(description) VALUES('Medicina');
+INSERT INTO expense_type(description) VALUES('Medico');
+INSERT INTO expense_type(description) VALUES('Servicios');

@@ -12,6 +12,8 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import lombok.Data;
+
 @Entity
 @Table(name = "account")
 public class Account {
@@ -26,6 +28,8 @@ public class Account {
     @ManyToOne
     @JoinColumn(name = "type_id")
     private AccountType type;
+
+    private Double amount;
 
     @Column(name = "create_time")
     private ZonedDateTime createdDate;
@@ -63,6 +67,14 @@ public class Account {
         this.type = type;
     }
 
+    public Double getAmount() {
+        return amount;
+    }
+
+    public void setAmount(Double amount) {
+        this.amount = amount;
+    }
+
     public ZonedDateTime getCreatedDate() {
         return createdDate;
     }
@@ -95,6 +107,5 @@ public class Account {
         this.updatedUser = updatedUser;
     }
 
-    
     
 }
