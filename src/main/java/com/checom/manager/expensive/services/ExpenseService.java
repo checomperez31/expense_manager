@@ -23,10 +23,18 @@ public class ExpenseService {
 
     @Transactional()
     public Expense save(Expense entity) {
-        Account account = this.accountService.findOne( entity.getAccount().getId() ).orElse(null);
-        account.setAmount( account.getAmount() + entity.getAmount() );
-        account = this.accountService.save(account);
-        entity.setAccount(account);
+        if ( entity.getMovementType() == null ) entity.setMovementType("G");
+        if ( entity.getMovementType().equals("G") ) {
+            if ( entity.getAmount() > 0 ) entity.setAmount(entity.getAmount() * -1);
+        } else {
+            if ( entity.getAmount() < 0 ) entity.setAmount(entity.getAmount() * -1);
+        }
+        if (entity.getImpact() != null && entity.getImpact()) {
+            Account account = this.accountService.findOne( entity.getAccount().getId() ).orElse(null);
+            account.setAmount( account.getAmount() + entity.getAmount() );
+            account = this.accountService.save(account);
+            entity.setAccount(account);
+        }
         return this.repository.save( entity );
     }
 

@@ -35,7 +35,12 @@ public class Expense {
     @JoinColumn(name = "parent_id")
     private Expense parent;
 
-    private Integer amount;
+    private Double amount;
+
+    @Column(name = "movement_type")
+    private String movementType = "G";
+
+    private Boolean impact = true;
 
     @ManyToOne
     @JoinColumn(name = "period_id")
@@ -96,12 +101,28 @@ public class Expense {
         this.parent = parent;
     }
 
-    public Integer getAmount() {
+    public Double getAmount() {
         return amount;
     }
 
-    public void setAmount(Integer amount) {
+    public void setAmount(Double amount) {
         this.amount = amount;
+    }
+    
+    public String getMovementType() {
+        return movementType;
+    }
+
+    public void setMovementType(String movementType) {
+        this.movementType = movementType;
+    }
+    
+    public Boolean getImpact() {
+        return impact;
+    }
+
+    public void setImpact(Boolean impact) {
+        this.impact = impact;
     }
 
     public Period getPeriod() {

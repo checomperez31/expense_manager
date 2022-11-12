@@ -25,7 +25,7 @@ CREATE TABLE account_type(
 CREATE TABLE account(
     id VARCHAR(36) NOT NULL PRIMARY KEY COMMENT 'Primary Key',
     name VARCHAR(300) COMMENT 'Description',
-    amount DECIMAL COMMENT 'Ammount of money',
+    amount DECIMAL(10,2) COMMENT 'Ammount of money' DEFAULT 0.00,
     type_id INT COMMENT 'Type of account',
     create_time DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT 'Create Time',
     create_user VARCHAR(36) COMMENT 'Create user',
@@ -40,14 +40,11 @@ CREATE TABLE period(
     description VARCHAR(300) COMMENT 'Description',
     init_date DATETIME COMMENT 'Init date',
     finish_date DATETIME COMMENT 'Finish Time',
-    account_id VARCHAR(36) COMMENT 'Account',
     create_time DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT 'Create Time',
     create_user VARCHAR(36) COMMENT 'Create user',
     update_time DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT 'Update Time',
     update_user VARCHAR(36) COMMENT 'Update user'
 ) COMMENT 'Periods';
-
-ALTER TABLE period ADD CONSTRAINT FOREIGN KEY(account_id) REFERENCES account(id);
 
 CREATE TABLE expense(
     id VARCHAR(36) NOT NULL PRIMARY KEY COMMENT 'Primary Key',
@@ -55,7 +52,9 @@ CREATE TABLE expense(
     description VARCHAR(300) COMMENT 'Description',
     type_id INT COMMENT 'Type of expense',
     parent_id VARCHAR(36) COMMENT 'Expense parent',
-    amount INT COMMENT 'Ammount of money',
+    amount DECIMAL COMMENT 'Ammount of money' DEFAULT 0,
+    movement_type VARCHAR(1) COMMENT 'Movement type' DEFAULT 'G',
+    impact BOOLEAN COMMENT 'Impact account' DEFAULT true,
     period_id VARCHAR(36) COMMENT 'Period',
     expense_date DATETIME COMMENT 'Expense Time',
     create_time DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT 'Create Time',
