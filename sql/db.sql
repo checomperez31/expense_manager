@@ -52,7 +52,7 @@ CREATE TABLE expense(
     description VARCHAR(300) COMMENT 'Description',
     type_id INT COMMENT 'Type of expense',
     parent_id VARCHAR(36) COMMENT 'Expense parent',
-    amount DECIMAL COMMENT 'Ammount of money' DEFAULT 0,
+    amount DECIMAL(10, 2) COMMENT 'Ammount of money' DEFAULT 0.00,
     movement_type VARCHAR(1) COMMENT 'Movement type' DEFAULT 'G',
     impact BOOLEAN COMMENT 'Impact account' DEFAULT true,
     period_id VARCHAR(36) COMMENT 'Period',
