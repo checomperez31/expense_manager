@@ -40,7 +40,7 @@ public class ExpenseService {
 
     @Transactional(readOnly = true)
     public List<Expense> findAll() {
-        return this.repository.findAll();
+        return this.repository.findAllByAccountIsNotNullOrderByExpenseDateDescCreatedDateDesc();
     }
 
     @Transactional(readOnly = true)
