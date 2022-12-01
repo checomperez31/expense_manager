@@ -63,16 +63,29 @@ CREATE TABLE expense(
     update_user VARCHAR(36) COMMENT 'Update user'
 ) COMMENT 'Expenses';
 
+ALTER TABLE expense ADD COLUMN origin VARCHAR(36) COMMENT 'Expense origin when expense is a transaction' AFTER expense_date;
+
 ALTER TABLE expense ADD CONSTRAINT FOREIGN KEY(account_id) REFERENCES account(id);
 ALTER TABLE expense ADD CONSTRAINT FOREIGN KEY(type_id) REFERENCES expense_type(id);
 ALTER TABLE expense ADD CONSTRAINT FOREIGN KEY(parent_id) REFERENCES expense(id);
+ALTER TABLE expense ADD CONSTRAINT FOREIGN KEY(origin) REFERENCES expense(id);
 ALTER TABLE expense ADD CONSTRAINT FOREIGN KEY(period_id) REFERENCES period(id);
 
 INSERT INTO account_type(description) VALUES('Credito');
 INSERT INTO account_type(description) VALUES('Debito');
 INSERT INTO account_type(description) VALUES('Ahorro');
+
 INSERT INTO expense_type(description) VALUES('Gasolina');
 INSERT INTO expense_type(description) VALUES('Despensa');
 INSERT INTO expense_type(description) VALUES('Medicina');
 INSERT INTO expense_type(description) VALUES('Medico');
 INSERT INTO expense_type(description) VALUES('Servicios');
+INSERT INTO expense_type(description) VALUES('Comida');
+INSERT INTO expense_type(description) VALUES('Tanda');
+INSERT INTO expense_type(description) VALUES('Ahorro');
+INSERT INTO expense_type(description) VALUES('Servicios basicos');
+INSERT INTO expense_type(description) VALUES('Tiempo aire');
+INSERT INTO expense_type(description) VALUES('Quincena');
+INSERT INTO expense_type(description) VALUES('Renta');
+INSERT INTO expense_type(description) VALUES('Recargas');
+INSERT INTO expense_type(description) VALUES('Pago Tarjeta Credito');

@@ -1,14 +1,16 @@
 package com.checom.manager.expensive.services;
-
-import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.checom.manager.expensive.models.Account;
 import com.checom.manager.expensive.models.Expense;
 import com.checom.manager.expensive.repositories.ExpenseRepository;
+import com.checom.manager.expensive.services.criteria.ExpenseCriteria;
+import com.checom.manager.expensive.services.dto.StatsDto;
 
 @Service
 public class ExpenseService {
@@ -39,8 +41,8 @@ public class ExpenseService {
     }
 
     @Transactional(readOnly = true)
-    public List<Expense> findAll() {
-        return this.repository.findAllByAccountIsNotNullOrderByExpenseDateDescCreatedDateDesc();
+    public Page<Expense> findAll(ExpenseCriteria criteria, Pageable pageable) {
+        return this.repository.findAll(criteria.build(), pageable);
     }
 
     @Transactional(readOnly = true)
@@ -51,5 +53,14 @@ public class ExpenseService {
     @Transactional
     public void delete(String id) {
         this.repository.deleteById( id );
+    }
+
+    @Transactional(readOnly = true)
+    public StatsDto getStats(ExpenseCriteria criteria) {
+        Double spent = this.repository.findAll(criteria.withMovementType("G").build())
+            .stream().map(e -> Math.abs(e.getAmount())).reduce((a, b) -> {return a + b;}).orElse(Double.valueOf(0));
+        Double ingress = this.repository.findAll(criteria.withMovementType("I").build())
+            .stream().map(e -> Math.abs(e.getAmount())).reduce((a, b) -> {return a + b;}).orElse(Double.valueOf(0));
+        return new StatsDto(ingress, spent);
     }
 }

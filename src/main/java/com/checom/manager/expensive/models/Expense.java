@@ -7,10 +7,13 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 @Entity
 @Table(name = "expense")
@@ -48,15 +51,21 @@ public class Expense {
 
     @Column(name = "expense_date")
     private ZonedDateTime expenseDate;
+
+    @ManyToOne
+    @JoinTable(name = "origin")
+    private Expense origin;
     
-    @Column(name = "create_time")
-    private ZonedDateTime createdDate;
+    @CreatedDate
+    @Column(name = "create_time", updatable = false)
+    private ZonedDateTime createdDate = ZonedDateTime.now();
     
     @Column(name = "create_user")
     private String createdUser;
 
+    @LastModifiedDate
     @Column(name = "update_time")
-    private ZonedDateTime updatedDate;
+    private ZonedDateTime updatedDate = ZonedDateTime.now();
 
     @Column(name = "update_user")
     private String updatedUser;
@@ -141,6 +150,14 @@ public class Expense {
         this.expenseDate = expenseDate;
     }
 
+    public Expense getOrigin() {
+        return origin;
+    }
+
+    public void setOrigin(Expense origin) {
+        this.origin = origin;
+    }
+
     public ZonedDateTime getCreatedDate() {
         return createdDate;
     }
@@ -172,6 +189,4 @@ public class Expense {
     public void setUpdatedUser(String updatedUser) {
         this.updatedUser = updatedUser;
     }
-
-    
 }
