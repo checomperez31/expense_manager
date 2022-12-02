@@ -38,14 +38,15 @@ public class ExpenseService {
         } else {
             if ( entity.getAmount() < 0 ) entity.setAmount(entity.getAmount() * -1);
         }
+        Account account = this.accountService.findOne( entity.getAccount().getId() ).orElse(null);
         if (entity.getImpact() != null && entity.getImpact()) {
-            Account account = this.accountService.findOne( entity.getAccount().getId() ).orElse(null);
-            account.setAmount( account.getAmount() + entity.getAmount() );
+            Double ammount = (account.getAmount() == null? 0: account.getAmount()) + entity.getAmount();
+            account.setAmount( ammount );
             account = this.accountService.save(account);
-            entity.setAccount(account);
         }
+        entity.setAccount( account );
         entity = this.repository.save( entity );
-        this.createTransferMovement( entity, dto.getAccountToTransfer() );
+        if ( entity.getMovementType().equals("T") && dto.getAccountToTransfer() != null ) this.createTransferMovement( entity, dto.getAccountToTransfer() );
         return entity;
     }
 
@@ -65,10 +66,8 @@ public class ExpenseService {
             Double ammount = (transferAccount.getAmount() == null? 0: transferAccount.getAmount()) + entity.getAmount();
             transferAccount.setAmount( ammount );
             transferAccount = this.accountService.save(transferAccount);
-            entity.setAccount( transferAccount );
-        } else {
-            entity.setAccount( transferAccount );
         }
+        entity.setAccount( transferAccount );
         this.repository.save( entity );
     }
 
@@ -89,9 +88,9 @@ public class ExpenseService {
 
     @Transactional(readOnly = true)
     public StatsDto getStats(ExpenseCriteria criteria) {
-        Double spent = this.repository.findAll(criteria.withMovementType("G").build())
+        Double spent = this.repository.findAll(criteria.withMovementType("G").buildStats())
             .stream().map(e -> Math.abs(e.getAmount())).reduce((a, b) -> {return a + b;}).orElse(Double.valueOf(0));
-        Double ingress = this.repository.findAll(criteria.withMovementType("I").build())
+        Double ingress = this.repository.findAll(criteria.withMovementType("I").buildStats())
             .stream().map(e -> Math.abs(e.getAmount())).reduce((a, b) -> {return a + b;}).orElse(Double.valueOf(0));
         return new StatsDto(ingress, spent);
     }

@@ -28,6 +28,20 @@ public class ExpenseCriteria extends Criteria<Expense> {
         spec = spec.and(buildOrder());
         return spec;
     }
+    
+    public Specification<Expense> buildStats() {
+        Specification<Expense> spec = Specification.where(null);
+        if ( account != null ) {
+            spec = spec.and( createStringSpecificationList(account, Expense_.account, Account_.id) );
+        }
+        if ( period != null ) {
+            spec = spec.and( createStringSpecificationList(period, Expense_.period, Period_.id ) );
+        }
+        if ( movementType != null ) {
+            spec = spec.and( createStringSpecification(movementType, Expense_.movementType) );
+        }
+        return spec;
+    }
 
     public Specification<Expense> buildOrder () {
         return (root, query, builder) -> {
