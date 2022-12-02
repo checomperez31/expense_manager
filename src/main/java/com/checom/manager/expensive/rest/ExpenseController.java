@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.checom.manager.expensive.models.Expense;
 import com.checom.manager.expensive.services.ExpenseService;
 import com.checom.manager.expensive.services.criteria.ExpenseCriteria;
+import com.checom.manager.expensive.services.dto.ExpenseCreateDto;
 import com.checom.manager.expensive.services.dto.StatsDto;
 import com.checom.manager.expensive.utils.PageUtil;
 
@@ -31,14 +32,14 @@ public class ExpenseController {
     }
 
     @PostMapping()
-    public ResponseEntity<Expense> create(@RequestBody Expense entity) {
-        return ResponseEntity.ok( this.service.save( entity ) );
+    public ResponseEntity<Expense> create(@RequestBody ExpenseCreateDto dto) {
+        return ResponseEntity.ok( this.service.create( dto ) );
     }
 
-    @PutMapping()
+    /* @PutMapping()
     public ResponseEntity<Expense> update(@RequestBody Expense entity) {
         return ResponseEntity.ok( this.service.save( entity ) );
-    }
+    } */
 
     @GetMapping()
     public ResponseEntity<List<Expense>> findAll(ExpenseCriteria criteria, Pageable pageable) {
