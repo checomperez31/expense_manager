@@ -53,7 +53,7 @@ public class Expense {
     private ZonedDateTime expenseDate;
 
     @ManyToOne
-    @JoinTable(name = "origin")
+    @JoinColumn(name = "origin_id")
     private Expense origin;
     
     @CreatedDate

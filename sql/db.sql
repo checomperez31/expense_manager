@@ -63,7 +63,7 @@ CREATE TABLE expense(
     update_user VARCHAR(36) COMMENT 'Update user'
 ) COMMENT 'Expenses';
 
-ALTER TABLE expense ADD COLUMN origin VARCHAR(36) COMMENT 'Expense origin when expense is a transaction' AFTER expense_date;
+ALTER TABLE expense ADD COLUMN origin_id VARCHAR(36) COMMENT 'Expense origin when expense is a transaction';
 
 ALTER TABLE expense ADD CONSTRAINT FOREIGN KEY(account_id) REFERENCES account(id);
 ALTER TABLE expense ADD CONSTRAINT FOREIGN KEY(type_id) REFERENCES expense_type(id);
