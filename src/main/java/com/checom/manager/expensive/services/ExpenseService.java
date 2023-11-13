@@ -71,6 +71,23 @@ public class ExpenseService {
         this.repository.save( entity );
     }
 
+    @Transactional()
+    public Expense update(Expense entity) {
+        if ( entity.getOrigin() != null ) {
+            Expense origin = this.repository.findById(entity.getOrigin().getId()).orElse( null );
+            origin.setDescription( entity.getDescription() );
+            origin.setType( entity.getType() );
+            origin.setAmount(entity.getAmount() * -1);
+            origin.setMovementType("T");
+            origin.setImpact( entity.getImpact() );
+            origin.setPeriod( entity.getPeriod() );
+            origin.setExpenseDate( entity.getExpenseDate() );
+            origin = this.repository.save( origin );
+            entity.setOrigin( origin );
+        }
+        return this.repository.save( entity );
+    }
+
     @Transactional(readOnly = true)
     public Page<Expense> findAll(ExpenseCriteria criteria, Pageable pageable) {
         return this.repository.findAll(criteria.build(), pageable);

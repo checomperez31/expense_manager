@@ -11,6 +11,9 @@ server:
 #         database-platform: org.hibernate.dialect.MySQL55Dialect
 spring:
     datasource:
+        url: jdbc:mysql://us-east.connect.psdb.cloud/checom_db?sslMode=VERIFY_IDENTITY
+        username: nem3kt3ty40ewjwglj05
+        password: pscale_pw_MoVvr1WoshjUVKQeq5oZW4WFwA8KvP8tblexQpQokq5
         driver-class-name: com.mysql.cj.jdbc.Driver
     jpa:
         open-in-view: false

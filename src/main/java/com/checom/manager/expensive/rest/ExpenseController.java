@@ -36,10 +36,10 @@ public class ExpenseController {
         return ResponseEntity.ok( this.service.create( dto ) );
     }
 
-    /* @PutMapping()
+    @PutMapping()
     public ResponseEntity<Expense> update(@RequestBody Expense entity) {
-        return ResponseEntity.ok( this.service.save( entity ) );
-    } */
+        return ResponseEntity.ok( this.service.update( entity ) );
+    }
 
     @GetMapping()
     public ResponseEntity<List<Expense>> findAll(ExpenseCriteria criteria, Pageable pageable) {
