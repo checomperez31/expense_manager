@@ -68,7 +68,7 @@ ALTER TABLE expense ADD COLUMN origin_id VARCHAR(36) COMMENT 'Expense origin whe
 ALTER TABLE expense ADD CONSTRAINT FOREIGN KEY(account_id) REFERENCES account(id);
 ALTER TABLE expense ADD CONSTRAINT FOREIGN KEY(type_id) REFERENCES expense_type(id);
 ALTER TABLE expense ADD CONSTRAINT FOREIGN KEY(parent_id) REFERENCES expense(id);
-ALTER TABLE expense ADD CONSTRAINT FOREIGN KEY(origin) REFERENCES expense(id);
+ALTER TABLE expense ADD CONSTRAINT FOREIGN KEY(origin_id) REFERENCES expense(id);
 ALTER TABLE expense ADD CONSTRAINT FOREIGN KEY(period_id) REFERENCES period(id);
 
 INSERT INTO account_type(description) VALUES('Credito');

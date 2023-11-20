@@ -3,6 +3,7 @@ spring:
     application:
         name: expenses
     profiles:
+        # active: dev
         active: @profile.active@
 
 # encrypter:
