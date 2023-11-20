@@ -3,7 +3,8 @@ spring:
     application:
         name: expenses
     profiles:
-        active: @profile.active@
+        active: dev
+        # active: @profile.active@
 
 # encrypter:
 #     salt: //]ncX?001!@bc3&
