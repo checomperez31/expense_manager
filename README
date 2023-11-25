@@ -1,12 +1,12 @@
 To compile
 
-.\mvnw -DskipTests -Pprod clean package
+mvn -DskipTests -Pprod clean package
 
 
 to bluid
 
-docker build -t expense-manager ./
+docker -H 129.153.190.89:3312 build -t expense-manager ./
 
 to run
 
-docker run -dp 8084:8085 expense-manager
+docker -H 129.153.190.89:3312 run -dp 8000:8085 --name=expense-manager expense-manager
