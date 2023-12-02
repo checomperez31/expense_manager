@@ -1,6 +1,8 @@
 package com.checom.manager.expensive.services;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -17,6 +19,8 @@ import com.checom.manager.expensive.services.mapping.ExpenseCreateMapper;
 @Service
 public class ExpenseService {
 
+    private final Logger log = LoggerFactory.getLogger( ExpenseService.class );
+
     private final ExpenseRepository repository;
 
     private final AccountService accountService;
@@ -32,20 +36,7 @@ public class ExpenseService {
     @Transactional()
     public Expense create(ExpenseCreateDto dto) {
         Expense entity = this.createMapper.toEntity( dto );
-        if ( entity.getMovementType() == null ) entity.setMovementType("G");
-        if ( entity.getMovementType().equals("G") || entity.getMovementType().equals("T") ) {
-            if ( entity.getAmount() > 0 ) entity.setAmount(entity.getAmount() * -1);
-        } else {
-            if ( entity.getAmount() < 0 ) entity.setAmount(entity.getAmount() * -1);
-        }
-        Account account = this.accountService.findOne( entity.getAccount().getId() ).orElse(null);
-        if (entity.getImpact() != null && entity.getImpact()) {
-            Double ammount = (account.getAmount() == null? 0: account.getAmount()) + entity.getAmount();
-            account.setAmount( ammount );
-            account = this.accountService.save(account);
-        }
-        entity.setAccount( account );
-        entity = this.repository.save( entity );
+        entity = this.impact( entity );
         if ( entity.getMovementType().equals("T") && dto.getAccountToTransfer() != null ) this.createTransferMovement( entity, dto.getAccountToTransfer() );
         return entity;
     }
@@ -73,19 +64,48 @@ public class ExpenseService {
 
     @Transactional()
     public Expense update(Expense entity) {
-        if ( entity.getOrigin() != null ) {
-            Expense origin = this.repository.findById(entity.getOrigin().getId()).orElse( null );
-            origin.setDescription( entity.getDescription() );
-            origin.setType( entity.getType() );
-            origin.setAmount(entity.getAmount() * -1);
-            origin.setMovementType("T");
-            origin.setImpact( entity.getImpact() );
-            origin.setPeriod( entity.getPeriod() );
-            origin.setExpenseDate( entity.getExpenseDate() );
-            origin = this.repository.save( origin );
-            entity.setOrigin( origin );
+        Expense exist = this.repository.findById( entity.getId() ).orElse( null );
+        if ( exist != null ) this.reverseExpense( exist );
+        return this.impact( entity );
+    }
+
+    @Transactional()
+    public Expense impact(Expense entity) {
+        if ( entity.getMovementType() == null ) entity.setMovementType("G");
+        if ( entity.getMovementType().equals("G") || entity.getMovementType().equals("T") ) {
+            entity.setAmount(Math.abs( entity.getAmount() ) * -1);
+        } else {
+            entity.setAmount(Math.abs( entity.getAmount() ));
         }
+        Account account = this.accountService.findOne( entity.getAccount().getId() ).orElse(null);
+        if (entity.getImpact() != null && entity.getImpact()) {
+            Double ammount = (account.getAmount() == null? 0: account.getAmount());
+            log.debug("Amount of account {}, movement: {}", ammount, entity.getAmount());
+            account.setAmount( ammount + entity.getAmount() );
+            account = this.accountService.save(account);
+        }
+        entity.setAccount( account );
         return this.repository.save( entity );
+    }
+
+    /*
+     * This function reverse impact of movement in an account
+     */
+    @Transactional()
+    public void reverseExpense(Expense entity) {
+        Account account = this.accountService.findOne( entity.getAccount().getId() ).orElse(null);
+        if ( entity.getMovementType() != null && account != null && entity.getImpact() ) {
+            Double movementAmount = Math.abs( entity.getAmount() );
+            if ( entity.getMovementType().equals( "G" ) ) {
+                log.debug("Reversed account {} from {} to {}", account.getId(), account.getAmount(), (account.getAmount() + movementAmount));
+                account.setAmount( account.getAmount() + movementAmount );
+                this.accountService.save( account );
+            } else if ( entity.getMovementType().equals( "I" ) ) {
+                log.debug("Reversed account {} from {} to {}", account.getId(), account.getAmount(), (account.getAmount() - movementAmount));
+                account.setAmount( account.getAmount() - movementAmount );
+                this.accountService.save( account );
+            }
+        }
     }
 
     @Transactional(readOnly = true)
