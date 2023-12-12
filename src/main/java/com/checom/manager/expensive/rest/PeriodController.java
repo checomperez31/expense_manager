@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.checom.manager.expensive.models.Period;
 import com.checom.manager.expensive.services.PeriodService;
 import com.checom.manager.expensive.services.dto.PeriodCreateDto;
+import com.checom.manager.expensive.services.dto.PeriodDto;
 
 @RestController
 @RequestMapping("/api/period")
@@ -41,6 +42,11 @@ public class PeriodController {
         return ResponseEntity.ok( this.service.findAll() );
     }
 
+    @GetMapping("/last")
+    public ResponseEntity<PeriodDto> findLast() {
+        return ResponseEntity.ok( this.service.findLast().orElse( null ) );
+    }
+    
     @GetMapping("/{id}")
     public ResponseEntity<Period> findOne(@PathVariable String id) {
         return ResponseEntity.ok( this.service.findOne( id ).orElse( null ) );

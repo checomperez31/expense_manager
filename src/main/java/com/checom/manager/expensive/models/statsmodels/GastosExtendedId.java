@@ -4,12 +4,10 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
-import javax.persistence.Id;
 
 @Embeddable
 public class GastosExtendedId implements Serializable{
 
-    @Id
     @Column(name="account_id")
     private String accountId;
 

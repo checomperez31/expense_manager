@@ -9,16 +9,20 @@ import org.springframework.transaction.annotation.Transactional;
 import com.checom.manager.expensive.models.Period;
 import com.checom.manager.expensive.repositories.PeriodRepository;
 import com.checom.manager.expensive.services.dto.PeriodCreateDto;
+import com.checom.manager.expensive.services.dto.PeriodDto;
 import com.checom.manager.expensive.services.mapping.PeriodCreateMapper;
+import com.checom.manager.expensive.services.mapping.PeriodMapper;
 
 @Service
 public class PeriodService {
     private final PeriodRepository repository;
     private final PeriodCreateMapper createMapper;
+    private final PeriodMapper mapper;
 
-    public PeriodService(PeriodRepository repository, PeriodCreateMapper createMapper) {
+    public PeriodService(PeriodRepository repository, PeriodCreateMapper createMapper, PeriodMapper mapper) {
         this.repository = repository;
         this.createMapper = createMapper;
+        this.mapper = mapper;
     }
 
     @Transactional
@@ -34,6 +38,11 @@ public class PeriodService {
     @Transactional(readOnly = true)
     public Optional<Period> findOne(String id) {
         return this.repository.findById( id );
+    }
+    
+    @Transactional(readOnly = true)
+    public Optional<PeriodDto> findLast() {
+        return this.repository.findFirstByFinishDateIsNotNullOrderByFinishDateDesc().map(this.mapper::toDto);
     }
 
     @Transactional
