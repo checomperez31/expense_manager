@@ -41,6 +41,11 @@ public class PeriodController {
     public ResponseEntity<List<Period>> findAll() {
         return ResponseEntity.ok( this.service.findAll() );
     }
+    
+    @GetMapping("/active")
+    public ResponseEntity<List<Period>> findAllActive() {
+        return ResponseEntity.ok( this.service.findAll() );
+    }
 
     @GetMapping("/last")
     public ResponseEntity<PeriodDto> findLast() {
