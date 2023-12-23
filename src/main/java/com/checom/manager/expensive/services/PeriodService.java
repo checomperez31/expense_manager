@@ -34,6 +34,11 @@ public class PeriodService {
     public List<Period> findAll() {
         return this.repository.findAll();
     }
+    
+    @Transactional(readOnly = true)
+    public List<PeriodDto> findAllDto() {
+        return this.mapper.toDto(this.repository.findAll());
+    }
 
     @Transactional(readOnly = true)
     public Optional<Period> findOne(String id) {

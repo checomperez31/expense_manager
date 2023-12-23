@@ -39,6 +39,11 @@ public class ExpenseTypeController {
     public ResponseEntity<List<ExpenseType>> findAll() {
         return ResponseEntity.ok( this.service.findAll() );
     }
+    
+    @GetMapping("/active")
+    public ResponseEntity<List<ExpenseType>> findAllActive() {
+        return ResponseEntity.ok( this.service.findAll() );
+    }
 
     @GetMapping("/{id}")
     public ResponseEntity<ExpenseType> findOne(@PathVariable Integer id) {

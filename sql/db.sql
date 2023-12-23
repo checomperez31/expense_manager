@@ -89,3 +89,4 @@ INSERT INTO expense_type(description) VALUES('Quincena');
 INSERT INTO expense_type(description) VALUES('Renta');
 INSERT INTO expense_type(description) VALUES('Recargas');
 INSERT INTO expense_type(description) VALUES('Pago Tarjeta Credito');
+INSERT INTO expense_type(description) VALUES('Emily');
