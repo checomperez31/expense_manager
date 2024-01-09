@@ -19,6 +19,9 @@ public class GastosExtended {
 
     @Column(name="expense_type")
     private String expense;
+    
+    @Column(name="expense_icon")
+    private String icon;
 
     @Column(name="amount")
     private Double amount;
@@ -63,6 +66,8 @@ public class GastosExtended {
         this.amount = amount;
     }
 
+    
+
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -92,6 +97,14 @@ public class GastosExtended {
         } else if (!account.equals(other.account))
             return false;
         return true;
+    }
+
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
     }
 
     
