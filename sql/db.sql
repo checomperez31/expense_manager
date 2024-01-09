@@ -12,6 +12,8 @@ CREATE TABLE expense_type(
     update_user VARCHAR(36) COMMENT 'Update user'
 ) COMMENT 'Expenses types';
 
+ALTER TABLE expense_type ADD COLUMN icon VARCHAR(100) COMMENT 'icon for type';
+
 -- Active: 1636313947133@@127.0.0.1@3306@expense_manager
 CREATE TABLE account_type(  
     id int NOT NULL PRIMARY KEY AUTO_INCREMENT COMMENT 'Primary Key',
@@ -90,3 +92,26 @@ INSERT INTO expense_type(description) VALUES('Renta');
 INSERT INTO expense_type(description) VALUES('Recargas');
 INSERT INTO expense_type(description) VALUES('Pago Tarjeta Credito');
 INSERT INTO expense_type(description) VALUES('Emily');
+
+
+
+
+DROP VIEW gastos_extended;
+CREATE VIEW gastos_extended
+AS
+select 
+    acc.id account_id,
+    acc.name account_name,
+    pe.id period_id,
+    pe.description period_name,
+    et.id expense_type_id,
+    et.description expense_type,
+    et.icon expense_icon,
+    SUM(ABS(ex.amount)) amount
+from expense ex
+INNER JOIN account acc on acc.id = ex.account_id
+INNER JOIN expense_type et on et.id = ex.type_id
+INNER JOIN period pe on pe.id = ex.period_id
+WHERE ex.movement_type = 'G'
+GROUP BY acc.id, acc.name, pe.id, pe.description, et.id, et.description, et.icon
+ORDER BY acc.name;
