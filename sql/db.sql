@@ -72,6 +72,8 @@ ALTER TABLE expense ADD CONSTRAINT FOREIGN KEY(type_id) REFERENCES expense_type(
 ALTER TABLE expense ADD CONSTRAINT FOREIGN KEY(parent_id) REFERENCES expense(id);
 ALTER TABLE expense ADD CONSTRAINT FOREIGN KEY(origin_id) REFERENCES expense(id);
 ALTER TABLE expense ADD CONSTRAINT FOREIGN KEY(period_id) REFERENCES period(id);
+ALTER TABLE expense ADD COLUMN account_destination_id VARCHAR(36) COMMENT'Account destination in transfer';
+ALTER TABLE expense ADD CONSTRAINT FOREIGN KEY(account_destination_id) REFERENCES account(id);
 
 INSERT INTO account_type(description) VALUES('Credito');
 INSERT INTO account_type(description) VALUES('Debito');

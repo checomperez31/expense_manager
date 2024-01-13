@@ -69,6 +69,10 @@ public class Expense {
     @Column(name = "update_user")
     private String updatedUser;
 
+    @ManyToOne
+    @JoinColumn(name = "account_destination_id")
+    private Account accountDestination;
+
     public String getId() {
         return id;
     }
@@ -188,4 +192,14 @@ public class Expense {
     public void setUpdatedUser(String updatedUser) {
         this.updatedUser = updatedUser;
     }
+
+    public Account getAccountDestination() {
+        return accountDestination;
+    }
+
+    public void setAccountDestination(Account accountDestination) {
+        this.accountDestination = accountDestination;
+    }
+
+    
 }

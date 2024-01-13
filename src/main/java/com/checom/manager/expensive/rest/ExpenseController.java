@@ -37,8 +37,8 @@ public class ExpenseController {
     }
 
     @PutMapping()
-    public ResponseEntity<Expense> update(@RequestBody Expense entity) {
-        return ResponseEntity.ok( this.service.update( entity ) );
+    public ResponseEntity<Expense> update(@RequestBody ExpenseCreateDto dto) {
+        return ResponseEntity.ok( this.service.update( dto ) );
     }
 
     @GetMapping()

@@ -9,6 +9,8 @@ import com.checom.manager.expensive.models.Period;
 
 public class ExpenseCreateDto {
 
+    private String id;
+
     private Account account;
 
     private String description;
@@ -28,6 +30,14 @@ public class ExpenseCreateDto {
     private ZonedDateTime expenseDate;
 
     private Account accountToTransfer;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public Account getAccount() {
         return account;

@@ -37,33 +37,12 @@ public class ExpenseService {
     public Expense create(ExpenseCreateDto dto) {
         Expense entity = this.createMapper.toEntity( dto );
         entity = this.impact( entity );
-        if ( entity.getMovementType().equals("T") && dto.getAccountToTransfer() != null ) this.createTransferMovement( entity, dto.getAccountToTransfer() );
         return entity;
     }
 
     @Transactional()
-    public void createTransferMovement(Expense origin, Account accountToTransfer) {
-        Expense entity = new Expense();
-        entity.setDescription( origin.getDescription() );
-        entity.setType( origin.getType() );
-        entity.setAmount(origin.getAmount() * -1);
-        entity.setMovementType("T");
-        entity.setImpact( origin.getImpact() );
-        entity.setPeriod( origin.getPeriod() );
-        entity.setExpenseDate( origin.getExpenseDate() );
-        entity.setOrigin( origin );
-        Account transferAccount = this.accountService.findOne( accountToTransfer.getId() ).orElse(null);
-        if (entity.getImpact() != null && entity.getImpact()) {
-            Double ammount = (transferAccount.getAmount() == null? 0: transferAccount.getAmount()) + entity.getAmount();
-            transferAccount.setAmount( ammount );
-            transferAccount = this.accountService.save(transferAccount);
-        }
-        entity.setAccount( transferAccount );
-        this.repository.save( entity );
-    }
-
-    @Transactional()
-    public Expense update(Expense entity) {
+    public Expense update(ExpenseCreateDto dto) {
+        Expense entity = this.createMapper.toEntity( dto );
         Expense exist = this.repository.findById( entity.getId() ).orElse( null );
         if ( exist != null ) this.reverseExpense( exist );
         return this.impact( entity );
@@ -72,7 +51,7 @@ public class ExpenseService {
     @Transactional()
     public Expense impact(Expense entity) {
         if ( entity.getMovementType() == null ) entity.setMovementType("G");
-        if ( entity.getMovementType().equals("G") || entity.getMovementType().equals("T") ) {
+        if ( entity.getMovementType().equals("G")) {
             entity.setAmount(Math.abs( entity.getAmount() ) * -1);
         } else {
             entity.setAmount(Math.abs( entity.getAmount() ));
@@ -80,11 +59,24 @@ public class ExpenseService {
         Account account = this.accountService.findOne( entity.getAccount().getId() ).orElse(null);
         if (entity.getImpact() != null && entity.getImpact()) {
             Double ammount = (account.getAmount() == null? 0: account.getAmount());
-            log.debug("Amount of account {}, movement: {}", ammount, entity.getAmount());
-            account.setAmount( ammount + entity.getAmount() );
+            if ( entity.getMovementType().equals("G") ) {
+                account.setAmount( ammount - Math.abs(entity.getAmount()) );
+                entity.setAccountDestination( null );
+            } else if ( entity.getMovementType().equals("T") ) {
+                account.setAmount( ammount - Math.abs(entity.getAmount()) );
+
+                Account accountDest = this.accountService.findOne( entity.getAccountDestination().getId() ).orElse(null);
+                Double ammountDest = (accountDest.getAmount() == null? 0: accountDest.getAmount());
+                accountDest.setAmount( ammountDest + Math.abs(entity.getAmount()) );
+                accountDest = this.accountService.save( accountDest );
+                entity.setAccountDestination(accountDest);
+            } else {
+                account.setAmount( ammount + Math.abs(entity.getAmount()) );
+                entity.setAccountDestination( null );
+            }
             account = this.accountService.save(account);
+            entity.setAccount( account );
         }
-        entity.setAccount( account );
         return this.repository.save( entity );
     }
 
@@ -104,6 +96,14 @@ public class ExpenseService {
                 log.debug("Reversed account {} from {} to {}", account.getId(), account.getAmount(), (account.getAmount() - movementAmount));
                 account.setAmount( account.getAmount() - movementAmount );
                 this.accountService.save( account );
+            } else {
+                log.debug("Reversed account {} from {} to {}", account.getId(), account.getAmount(), (account.getAmount() + movementAmount));
+                account.setAmount( account.getAmount() + movementAmount );
+                this.accountService.save( account );
+
+                Account transferedAccount = this.accountService.findOne( entity.getAccountDestination().getId() ).orElse(null);
+                transferedAccount.setAmount( transferedAccount.getAmount() - movementAmount );
+                this.accountService.save( transferedAccount );
             }
         }
     }
