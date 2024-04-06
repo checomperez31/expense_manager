@@ -41,8 +41,8 @@ public class PeriodService {
     }
 
     @Transactional(readOnly = true)
-    public Optional<Period> findOne(String id) {
-        return this.repository.findById( id );
+    public Optional<PeriodDto> findOne(String id) {
+        return this.repository.findById( id ).map( this.mapper::toDto );
     }
     
     @Transactional(readOnly = true)

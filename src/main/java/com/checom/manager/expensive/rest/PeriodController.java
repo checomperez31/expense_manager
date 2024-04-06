@@ -58,7 +58,7 @@ public class PeriodController {
     }
     
     @GetMapping("/{id}")
-    public ResponseEntity<Period> findOne(@PathVariable String id) {
+    public ResponseEntity<PeriodDto> findOne(@PathVariable String id) {
         return ResponseEntity.ok( this.service.findOne( id ).orElse( null ) );
     }
 
