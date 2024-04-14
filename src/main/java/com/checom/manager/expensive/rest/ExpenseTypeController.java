@@ -2,6 +2,8 @@ package com.checom.manager.expensive.rest;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.checom.manager.expensive.models.ExpenseType;
 import com.checom.manager.expensive.services.ExpenseTypeService;
+import com.checom.manager.expensive.utils.PageUtil;
 
 @RestController
 @RequestMapping("/api/expense-type")
@@ -36,13 +39,14 @@ public class ExpenseTypeController {
     }
 
     @GetMapping()
-    public ResponseEntity<List<ExpenseType>> findAll() {
-        return ResponseEntity.ok( this.service.findAll() );
+    public ResponseEntity<List<ExpenseType>> findAll(Pageable pageable) {
+        Page<ExpenseType> result = this.service.findAll(pageable);
+        return ResponseEntity.ok().headers(PageUtil.generatePageHttpHeaders( result )).body(result.getContent());
     }
     
     @GetMapping("/active")
     public ResponseEntity<List<ExpenseType>> findAllActive() {
-        return ResponseEntity.ok( this.service.findAll() );
+        return ResponseEntity.ok( this.service.findAllActive() );
     }
 
     @GetMapping("/{id}")

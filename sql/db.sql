@@ -13,6 +13,7 @@ CREATE TABLE expense_type(
 ) COMMENT 'Expenses types';
 
 ALTER TABLE expense_type ADD COLUMN icon VARCHAR(100) COMMENT 'icon for type';
+ALTER TABLE expense_type ADD COLUMN color VARCHAR(100) COMMENT 'color for type';
 
 -- Active: 1636313947133@@127.0.0.1@3306@expense_manager
 CREATE TABLE account_type(  
@@ -88,7 +89,6 @@ INSERT INTO expense_type(description) VALUES('Comida');
 INSERT INTO expense_type(description) VALUES('Tanda');
 INSERT INTO expense_type(description) VALUES('Ahorro');
 INSERT INTO expense_type(description) VALUES('Servicios basicos');
-INSERT INTO expense_type(description) VALUES('Tiempo aire');
 INSERT INTO expense_type(description) VALUES('Quincena');
 INSERT INTO expense_type(description) VALUES('Renta');
 INSERT INTO expense_type(description) VALUES('Recargas');

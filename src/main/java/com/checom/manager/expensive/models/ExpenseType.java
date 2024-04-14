@@ -33,6 +33,8 @@ public class ExpenseType {
 
     private String icon;
 
+    private String color;
+
     public Integer getId() {
         return id;
     }
@@ -89,6 +91,12 @@ public class ExpenseType {
         this.icon = icon;
     }
 
-    
-    
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
 }
