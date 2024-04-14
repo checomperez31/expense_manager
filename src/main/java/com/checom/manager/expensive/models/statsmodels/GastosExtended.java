@@ -22,6 +22,9 @@ public class GastosExtended {
     
     @Column(name="expense_icon")
     private String icon;
+    
+    @Column(name="expense_color")
+    private String color;
 
     @Column(name="amount")
     private Double amount;
@@ -107,6 +110,11 @@ public class GastosExtended {
         this.icon = icon;
     }
 
-    
-    
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }   
 }

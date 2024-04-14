@@ -1,12 +1,23 @@
-To compile
+# Compile project
 
-mvn -DskipTests -Pprod clean package
+mvn -Pdev -DskipTests clean package
+
+mvn -Pprod -DskipTests clean package
 
 
-to bluid
+# Build docker image
 
+docker build -t expense-manager-dev ./
+
+
+docker build -t expense-manager ./
 docker -H 129.153.190.89:3312 build -t expense-manager ./
 
-to run
+# Run docker image
 
+docker run -dp 8010:8085 --name=expense-manager-dev expense-manager-dev
+
+
+docker run -dp 8000:8085 --name=expense-manager expense-manager
 docker -H 129.153.190.89:3312 run -dp 8000:8085 --name=expense-manager expense-manager
+

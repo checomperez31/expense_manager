@@ -109,6 +109,7 @@ select
     et.id expense_type_id,
     et.description expense_type,
     et.icon expense_icon,
+    et.color expense_color,
     SUM(ABS(ex.amount)) amount
 from expense ex
 INNER JOIN account acc on acc.id = ex.account_id
