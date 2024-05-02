@@ -2,6 +2,7 @@ package com.checom.manager.expensive.services.statsservices;
 
 import java.util.List;
 
+import org.mapstruct.Named;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,6 +17,7 @@ public class GastosExtendedService {
         this.repository = repository;
     }
 
+    @Named("expensesByPeriod")
     @Transactional(readOnly=true)
     public List<GastosExtended> findTypesByPeriod(String id) {
         return this.repository.findAllById_PeriodId( id );

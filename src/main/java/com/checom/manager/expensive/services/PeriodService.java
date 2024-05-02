@@ -10,7 +10,9 @@ import com.checom.manager.expensive.models.Period;
 import com.checom.manager.expensive.repositories.PeriodRepository;
 import com.checom.manager.expensive.services.dto.PeriodCreateDto;
 import com.checom.manager.expensive.services.dto.PeriodDto;
+import com.checom.manager.expensive.services.dto.PeriodWithExpensesDto;
 import com.checom.manager.expensive.services.mapping.PeriodCreateMapper;
+import com.checom.manager.expensive.services.mapping.PeriodExpensesMapper;
 import com.checom.manager.expensive.services.mapping.PeriodMapper;
 
 @Service
@@ -18,11 +20,13 @@ public class PeriodService {
     private final PeriodRepository repository;
     private final PeriodCreateMapper createMapper;
     private final PeriodMapper mapper;
+    private final PeriodExpensesMapper expensesMapper;
 
-    public PeriodService(PeriodRepository repository, PeriodCreateMapper createMapper, PeriodMapper mapper) {
+    public PeriodService(PeriodRepository repository, PeriodCreateMapper createMapper, PeriodMapper mapper, PeriodExpensesMapper expensesMapper) {
         this.repository = repository;
         this.createMapper = createMapper;
         this.mapper = mapper;
+        this.expensesMapper = expensesMapper;
     }
 
     @Transactional
@@ -38,6 +42,11 @@ public class PeriodService {
     @Transactional(readOnly = true)
     public List<PeriodDto> findAllDto() {
         return this.mapper.toDto(this.repository.findAll());
+    }
+
+    @Transactional(readOnly = true)
+    public List<PeriodWithExpensesDto> findAllDtoWithExpenses() {
+        return this.expensesMapper.toDto(this.repository.findAll());
     }
 
     @Transactional(readOnly = true)

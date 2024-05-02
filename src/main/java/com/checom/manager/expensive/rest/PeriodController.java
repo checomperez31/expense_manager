@@ -16,6 +16,7 @@ import com.checom.manager.expensive.models.Period;
 import com.checom.manager.expensive.services.PeriodService;
 import com.checom.manager.expensive.services.dto.PeriodCreateDto;
 import com.checom.manager.expensive.services.dto.PeriodDto;
+import com.checom.manager.expensive.services.dto.PeriodWithExpensesDto;
 
 @RestController
 @RequestMapping("/api/period")
@@ -50,6 +51,11 @@ public class PeriodController {
     @GetMapping("/active-dashboard")
     public ResponseEntity<List<PeriodDto>> findAllActiveDto() {
         return ResponseEntity.ok( this.service.findAllDto() );
+    }
+    
+    @GetMapping("/active-expenses")
+    public ResponseEntity<List<PeriodWithExpensesDto>> findAllActiveWithExpensesDto() {
+        return ResponseEntity.ok( this.service.findAllDtoWithExpenses() );
     }
 
     @GetMapping("/last")
