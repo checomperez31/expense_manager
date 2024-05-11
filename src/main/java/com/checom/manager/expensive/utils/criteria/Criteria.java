@@ -46,6 +46,10 @@ public abstract class Criteria<ENTITY> {
     protected <X> Specification<ENTITY> createStringSpecificationList(StringParamFilter param, SingularAttribute<?, ?>... fields) {
         return this.createStringSpec(param, root -> getPath(root, fields));
     }
+    
+    protected <X> Specification<ENTITY> createSpecificationList(ParamFilter<X> param, SingularAttribute<?, ?>... fields) {
+        return this.createSpecification(param, root -> getPath(root, fields));
+    }
 
     protected Path getPath(Root<ENTITY> root, SingularAttribute... fields) {
         Path path = root;
