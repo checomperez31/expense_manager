@@ -3,6 +3,7 @@ package com.checom.manager.expensive.services.dto;
 import java.time.ZonedDateTime;
 import java.util.List;
 
+import com.checom.manager.expensive.models.statsmodels.ExpensesByPeriod;
 import com.checom.manager.expensive.models.statsmodels.GastosExtended;
 
 public class PeriodWithExpensesDto {
@@ -14,7 +15,7 @@ public class PeriodWithExpensesDto {
     
     private ZonedDateTime finishDate;
 
-    private List<GastosExtended> expenseTypes;
+    private List<ExpensesByPeriod> expenseTypes;
 
     public String getId() {
         return id;
@@ -48,11 +49,11 @@ public class PeriodWithExpensesDto {
         this.finishDate = finishDate;
     }
 
-    public List<GastosExtended> getExpenseTypes() {
+    public List<ExpensesByPeriod> getExpenseTypes() {
         return expenseTypes;
     }
 
-    public void setExpenseTypes(List<GastosExtended> expenseTypes) {
+    public void setExpenseTypes(List<ExpensesByPeriod> expenseTypes) {
         this.expenseTypes = expenseTypes;
     }
 

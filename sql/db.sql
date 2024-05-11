@@ -118,3 +118,39 @@ INNER JOIN period pe on pe.id = ex.period_id
 WHERE ex.movement_type = 'G'
 GROUP BY acc.id, acc.name, pe.id, pe.description, et.id, et.description, et.icon
 ORDER BY acc.name;
+
+
+DROP VIEW gastos_by_period;
+CREATE VIEW gastos_by_period
+AS
+select 
+    pe.id period_id,
+    pe.description period_name,
+    et.id expense_type_id,
+    et.description expense_type,
+    et.icon expense_icon,
+    et.color expense_color,
+    SUM(ABS(ex.amount)) amount
+from expense ex
+INNER JOIN expense_type et on et.id = ex.type_id
+INNER JOIN period pe on pe.id = ex.period_id
+WHERE ex.movement_type = 'G'
+GROUP BY pe.id, pe.description, et.id, et.description, et.icon
+ORDER BY pe.description;
+
+
+
+DROP VIEW global_expenses_by_type;
+CREATE VIEW global_expenses_by_type
+AS
+select 
+    et.id expense_type_id,
+    et.description description,
+    et.icon expense_icon,
+    et.color expense_color,
+    SUM(ABS(ex.amount)) amount
+from expense ex
+INNER JOIN expense_type et on et.id = ex.type_id
+WHERE ex.movement_type = 'G'
+GROUP BY et.id, et.description, et.icon
+ORDER BY et.description;
