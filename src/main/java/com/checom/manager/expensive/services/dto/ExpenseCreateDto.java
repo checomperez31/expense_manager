@@ -29,7 +29,7 @@ public class ExpenseCreateDto {
 
     private ZonedDateTime expenseDate;
 
-    private Account accountToTransfer;
+    private Account accountDestination;
 
     public String getId() {
         return id;
@@ -111,11 +111,11 @@ public class ExpenseCreateDto {
         this.expenseDate = expenseDate;
     }
 
-    public Account getAccountToTransfer() {
-        return accountToTransfer;
+    public Account getAccountDestination() {
+        return accountDestination;
     }
 
-    public void setAccountToTransfer(Account accountToTransfer) {
-        this.accountToTransfer = accountToTransfer;
+    public void setAccountDestination(Account accountDestination) {
+        this.accountDestination = accountDestination;
     }
 }
