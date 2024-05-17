@@ -39,6 +39,11 @@ public class AccountTypeController {
     public ResponseEntity<List<AccountType>> findAll() {
         return ResponseEntity.ok( this.service.findAll() );
     }
+    
+    @GetMapping("/active")
+    public ResponseEntity<List<AccountType>> findAllActive() {
+        return ResponseEntity.ok( this.service.findAllActive() );
+    }
 
     @GetMapping("/{id}")
     public ResponseEntity<AccountType> findOne(@PathVariable Integer id) {

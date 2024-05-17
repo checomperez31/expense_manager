@@ -21,7 +21,10 @@ public class ExpenseCriteria extends Criteria<Expense> {
     public Specification<Expense> build () {
         Specification<Expense> spec = Specification.where(null);
         if ( account != null ) {
-            spec = spec.and( createStringSpecificationList(account, Expense_.account, Account_.id) );
+            Specification<Expense> accountSpec = Specification.where(null);
+            accountSpec = accountSpec.or( createStringSpecificationList(account, Expense_.account, Account_.id) );
+            accountSpec = accountSpec.or( createStringSpecificationList(account, Expense_.accountDestination, Account_.id) );
+            spec = spec.and(accountSpec);
         }
         if ( period != null ) {
             spec = spec.and( createStringSpecificationList(period, Expense_.period, Period_.id ) );

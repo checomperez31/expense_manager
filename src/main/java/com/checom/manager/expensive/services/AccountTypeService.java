@@ -29,6 +29,11 @@ public class AccountTypeService {
     }
     
     @Transactional(readOnly = true)
+    public List<AccountType> findAllActive() {
+        return this.repository.findAll();
+    }
+    
+    @Transactional(readOnly = true)
     public Optional<AccountType> findOne(Integer id) {
         return this.repository.findById( id );
     }
