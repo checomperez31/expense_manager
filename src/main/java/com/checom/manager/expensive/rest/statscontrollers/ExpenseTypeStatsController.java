@@ -8,20 +8,20 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.checom.manager.expensive.models.statsmodels.GastosExtended;
-import com.checom.manager.expensive.services.statsservices.GastosExtendedService;
+import com.checom.manager.expensive.models.statsmodels.ExpensesByPeriod;
+import com.checom.manager.expensive.services.statsservices.ExpensesByPeriodService;
 
 @RestController
 @RequestMapping("/api/expense-type-stats")
 public class ExpenseTypeStatsController {
-    private final GastosExtendedService service;
+    private final ExpensesByPeriodService service;
     
-    public ExpenseTypeStatsController(GastosExtendedService service) {
+    public ExpenseTypeStatsController(ExpensesByPeriodService service) {
         this.service = service;
     }
 
     @GetMapping("/period/{id}")
-    public ResponseEntity<List<GastosExtended>> findTypesByPeriod(@PathVariable("id") String id) {
-        return ResponseEntity.ok( this.service.findTypesByPeriod(id) );
+    public ResponseEntity<List<ExpensesByPeriod>> findTypesByPeriod(@PathVariable("id") String id) {
+        return ResponseEntity.ok( this.service.findAllByPeriod(id) );
     }
 }
