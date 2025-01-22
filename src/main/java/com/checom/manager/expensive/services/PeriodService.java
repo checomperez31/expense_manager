@@ -3,6 +3,8 @@ package com.checom.manager.expensive.services;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,6 +36,11 @@ public class PeriodService {
         return this.repository.save( this.createMapper.toEntity( dto ) );
     }
 
+    @Transactional(readOnly = true)
+    public Page<Period> findPage(Pageable pageable) {
+        return this.repository.findAll(pageable);
+    }
+    
     @Transactional(readOnly = true)
     public List<Period> findAll() {
         return this.repository.findAll();

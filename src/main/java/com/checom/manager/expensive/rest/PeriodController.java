@@ -2,6 +2,8 @@ package com.checom.manager.expensive.rest;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +19,7 @@ import com.checom.manager.expensive.services.PeriodService;
 import com.checom.manager.expensive.services.dto.PeriodCreateDto;
 import com.checom.manager.expensive.services.dto.PeriodDto;
 import com.checom.manager.expensive.services.dto.PeriodWithExpensesDto;
+import com.checom.manager.expensive.utils.PageUtil;
 
 @RestController
 @RequestMapping("/api/period")
@@ -39,8 +42,9 @@ public class PeriodController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Period>> findAll() {
-        return ResponseEntity.ok( this.service.findAll() );
+    public ResponseEntity<List<Period>> findAll(Pageable pageable) {
+        Page<Period> result = this.service.findPage( pageable );
+        return ResponseEntity.ok().headers(PageUtil.generatePageHttpHeaders( result )).body(result.getContent());
     }
     
     @GetMapping("/active")
