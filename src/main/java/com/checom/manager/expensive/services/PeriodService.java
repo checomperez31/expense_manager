@@ -53,7 +53,7 @@ public class PeriodService {
 
     @Transactional(readOnly = true)
     public List<PeriodWithExpensesDto> findAllDtoWithExpenses() {
-        return this.expensesMapper.toDto(this.repository.findAll());
+        return this.expensesMapper.toDto(this.repository.findTop10ByFinishDateIsNotNullOrderByFinishDateDesc());
     }
 
     @Transactional(readOnly = true)
